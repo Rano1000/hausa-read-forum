@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String   // Hashed password
+  createdAt DateTime @default(now())
+}
+
+model Article {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String   // HTML or Markdown
+  author    String
+  coverImage String?
+  category  String
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Book {
+  id          String   @id @default(uuid())
+  title       String
+  author      String
+  description String
+  coverImage  String?
+  fileUrl     String   // Path to PDF
+  type        String   // Book, Manuscript, etc.
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Publication {
+  id        String   @id @default(uuid())
+  title     String
+  year      Int
+  journal   String?
+  authors   String
+  link      String?  // External link or file path
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
